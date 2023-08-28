@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="ap_main" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"  >
+    <children>
+        <Button fx:id="b_send" layoutX="324.0" layoutY="247.0" prefHeight="30.0" prefWidth="49.0" text="Send" />
+        <TextField fx:id="tf_message" layoutX="27.0" layoutY="247.0" prefHeight="30.0" prefWidth="290.0" />
+        <ScrollPane fx:id="sp_message" fitToWidth="true" layoutX="27.0" layoutY="63.0" prefHeight="176.0" prefWidth="341.0">
+            <content>
+                <VBox fx:id="vb_message" prefHeight="300" prefWidth="400.0" />
+            </content>
+        </ScrollPane>
+        <Label layoutX="125.0" layoutY="14.0" text="Messenger">
+            <font>
+                <Font name="Helvetica" size="30.0" />
+            </font>
+        </Label>
+    </children>
+
+</AnchorPane>
