@@ -1,16 +1,31 @@
 package com.app.messagingapp.client;
 
-import com.app.messagingapp.server.ServerController;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Exchanges messages with the Server.
+ */
 public class Client  {
+    /**
+     * The socket to exchange messages with the Server.
+     */
     private Socket socket;
+    /**
+     * The BufferedReader to accept messages from the InputStream of the {@link #socket}
+     */
     private BufferedReader bufferedReader;
+    /**
+     * The BufferedWriter to send messages via the InputStream of the {@link #socket}
+     */
     private BufferedWriter bufferedWriter;
 
+    /**
+     * Creates an instance of the Client class.
+     * @param socket A socket through which the message exchange is established.
+     */
     public Client(Socket socket) {
         try {
             this.socket = socket;
@@ -19,11 +34,16 @@ public class Client  {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error creating Client!");
-            close(socket, bufferedReader, bufferedWriter);
+            close();
         }
     }
 
-    private void close(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
+    /**
+     * Closes connection between the Server and the Client.
+     * Calls close() method on {@link #bufferedReader},{@link #bufferedWriter},{@link #socket}
+     * @throws RuntimeException if an error appears while closing
+     */
+    private void close(){
         try{
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -39,6 +59,11 @@ public class Client  {
         }
     }
 
+    /**
+     * Sends a message to the Server.
+     * Uses {@link #bufferedWriter} to pass a message to the OutputStream of the {@link #socket}.
+     * @param message A message string to be sent to the Server.
+     */
     public void sendMessage(String message){
         try {
             bufferedWriter.write(message);
@@ -47,20 +72,26 @@ public class Client  {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error sending message to the Client!");
-            close(socket, bufferedReader, bufferedWriter);
+            close();
         }
     }
 
+    /**
+     * Receives a message to the Server and displays it in the GUI.
+     * Uses {@link #bufferedReader} to accept/read a message from the InputStream of the {@link #socket}.
+     * Uses a separate Thread to display a message.
+     * @param vBox A vBox to display a message in the GUI
+     */
     public void receiveMessage(VBox vBox){
         new Thread(() -> {
             while(socket.isConnected()){
                 try{
                     String message = bufferedReader.readLine();
-                    ServerController.addLabel(message, vBox);
+                    ClientController.addLabel(message, vBox);
                 }catch (IOException e){
                     e.printStackTrace();
                     System.out.println("Error receiving message from the Server!");
-                    close(socket, bufferedReader, bufferedWriter);
+                    close();
                     break;
                 }
             }

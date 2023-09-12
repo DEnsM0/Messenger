@@ -19,18 +19,48 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The `ClientController` class is responsible for managing the client-side GUI and communication with the server.
+ */
 public class ClientController implements Initializable, CommonController {
+
+    /**
+     * The Send-button.
+     */
     @FXML
     private Button b_send;
+
+    /**
+     * The TextField where the user enters messages to send.
+     */
     @FXML
     private TextField tf_message;
+
+    /**
+     * A message box. Used to display all messages in chat.
+     */
     @FXML
     private VBox vb_message;
+
+    /**
+     * The ScrollPane for the field with messages.
+     */
     @FXML
     private ScrollPane sp_message;
 
+    /**
+     * The instance od Client class.
+     */
     private Client client;
 
+    /**
+     * Initializes the Client.
+     * Adds a Listener to the {@link #vb_message}.
+     * Sets an EventHandler to the {@link #b_send}. A new message will be displayed once sent.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     * @throws RuntimeException if the creation of the Client is failed.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
@@ -68,6 +98,11 @@ public class ClientController implements Initializable, CommonController {
         });
     }
 
+    /**
+     * Displays a received message label to the GUI.
+     * @param message a string with a received message from the Server.
+     * @param vBox a vBox to display a message in the GUI
+     */
     public static void addLabel(String message, VBox vBox){
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
@@ -85,6 +120,10 @@ public class ClientController implements Initializable, CommonController {
         Platform.runLater(() -> vBox.getChildren().add(hBox));
     }
 
+    /**
+     * Gets the VBox used for displaying messages.
+     * @return the VBox used for displaying messages.
+     */
     @Override
     public VBox getVBox() {
         return vb_message;
